@@ -43,6 +43,8 @@ public class TestRunner {
 
     private static final List<DevmindResult> devmindResults = new ArrayList<>();
 
+    public static final String PASSED = "PASSED";
+
     public static Stream<Arguments> data() {
         return Stream.of(
                 Arguments.of("01 - Report", "input/in_01_test_report.json", "out/out_01_test_report.json", "ref/ref_01_test_report.json", 2),
@@ -78,7 +80,6 @@ public class TestRunner {
     ) throws IOException {
         App.run(inputPath, outputPath);
 
-        JsonNode inputJson = objectMapper.readTree(new File(inputPath));
         JsonNode outputJson = objectMapper.readTree(new File(outputPath));
         JsonNode refJson = objectMapper.readTree(new File(refPath));
 
@@ -86,18 +87,12 @@ public class TestRunner {
             assertThatJson(outputJson).isEqualTo(refJson);
             devmindResults.add(new DevmindResult(
                 testName,
-                inputJson,
-                outputJson,
-                refJson,
-                "PASS",
+                PASSED,
                 points
             ));
         } catch (AssertionError e) {
             devmindResults.add(new DevmindErrorResult(
                     testName,
-                    inputJson,
-                    outputJson,
-                    refJson,
                     points,
                     e.getMessage()
             ));
@@ -129,19 +124,13 @@ public class TestRunner {
             assertThat(errorCount).isLessThanOrEqualTo(CheckerConstants.MAXIMUM_ERROR_CHECKSTYLE);
             devmindResults.add(new DevmindResult(
                     "checkstyle",
-                    "",
-                    "",
-                    errorCount,
-                    "PASS",
+                    PASSED,
                     CheckerConstants.CHECKSTYLE_POINTS
             ));
         }
         catch (AssertionError e) {
             devmindResults.add(new DevmindErrorResult(
                     "checkstyle",
-                    "",
-                    "",
-                    errorCount,
                     10,
                     e.getMessage()
             ));
@@ -155,6 +144,7 @@ public class TestRunner {
 
         try (Git git = Git.open(repoDirectory)) {
             List<RevCommit> commits = StreamSupport.stream(git.log().call().spliterator(), false)
+                    .filter(this::hasNonDeveloperAuthor)
                     .sorted(Comparator.comparing(RevCommit::getCommitTime))
                     .toList();
 
@@ -164,18 +154,12 @@ public class TestRunner {
 
             devmindResults.add(new DevmindResult(
                     "git",
-                    "",
-                    "",
-                    "",
-                    "PASS",
+                    PASSED,
                     CheckerConstants.GIT_POINTS
             ));
         } catch (IOException | AssertionError | GitAPIException e) {
             devmindResults.add(new DevmindErrorResult(
                     "git",
-                    "",
-                    "",
-                    "",
                     CheckerConstants.GIT_POINTS,
                     e.getMessage()
             ));
@@ -201,7 +185,7 @@ public class TestRunner {
         System.out.println("Total: " + TestCaseWatcher.totalPoints + "/100");
 
         boolean allPassed = devmindResults.stream()
-                .allMatch(result -> "PASS".equals(result.getStatus()));
+                .allMatch(result -> PASSED.equals(result.getStatus()));
 
         if (allPassed) {
             System.out.println("Well done. You're the GREATEST!");
@@ -216,5 +200,15 @@ public class TestRunner {
                 .writeValueAsString(devmindResults)
         );
         System.out.println("END-DEVMIND-TEST-RESULTS");
+    }
+
+    private boolean hasNonDeveloperAuthor(RevCommit commit) {
+        List<String> exceptedAuthors = List.of(
+                "david.capragiu@gmail.com",
+                "63539529+Dievaid@users.noreply.github.com"
+        );
+
+        String userEmail = commit.getAuthorIdent().getEmailAddress();
+        return !exceptedAuthors.contains(userEmail);
     }
 }
