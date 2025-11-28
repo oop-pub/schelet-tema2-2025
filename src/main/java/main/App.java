@@ -26,6 +26,7 @@ public class App {
      * @param outputPath path to the file where results should be written
      */
     public static void run(String inputPath, String outputPath) {
+        // feel free to change this if needed (however keep 'outputs' variable name to be used for writing)
         List<ObjectNode> outputs = new ArrayList<>();
 
         /*
@@ -40,6 +41,7 @@ public class App {
 
         // TODO 3: create objectnodes for output, add them to outputs list.
 
+        // DO NOT CHANGE THIS SECTION IN ANY WAY
         try {
             File outputFile = new File(outputPath);
             outputFile.getParentFile().mkdirs();
