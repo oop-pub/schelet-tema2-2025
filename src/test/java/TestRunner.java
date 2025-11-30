@@ -207,7 +207,8 @@ public class TestRunner {
                 "david.capragiu@gmail.com",
                 "63539529+Dievaid@users.noreply.github.com",
                 "gabrielvalentine738@gmail.com",
-                "119312368+gabriel-2802@users.noreply.github.com"
+                "119312368+gabriel-2802@users.noreply.github.com",
+                "deividcapragiu@gmail.com"
         );
 
         String userEmail = commit.getAuthorIdent().getEmailAddress();
