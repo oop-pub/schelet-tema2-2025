@@ -205,7 +205,9 @@ public class TestRunner {
     private boolean hasNonDeveloperAuthor(RevCommit commit) {
         List<String> exceptedAuthors = List.of(
                 "david.capragiu@gmail.com",
-                "63539529+Dievaid@users.noreply.github.com"
+                "63539529+Dievaid@users.noreply.github.com",
+                "gabrielvalentine738@gmail.com",
+                "119312368+gabriel-2802@users.noreply.github.com"
         );
 
         String userEmail = commit.getAuthorIdent().getEmailAddress();
