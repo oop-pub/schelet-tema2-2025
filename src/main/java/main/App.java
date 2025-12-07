@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class App {
     private App() {
-        throw new IllegalStateException("Utility class");
     }
 
     private static final String INPUT_USERS_FIELD = "input/database/users.json";
