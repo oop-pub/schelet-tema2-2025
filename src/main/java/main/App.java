@@ -14,9 +14,13 @@ import java.util.List;
  * generates outputs, and writes them to a file
  */
 public class App {
-    private static final String inputUserFile = "input/database/users.json";
+    private App() {
+    }
 
-    private static final ObjectWriter writer = new ObjectMapper().writer().withDefaultPrettyPrinter();
+    private static final String INPUT_USERS_FIELD = "input/database/users.json";
+
+    private static final ObjectWriter WRITER =
+            new ObjectMapper().writer().withDefaultPrettyPrinter();
 
     /**
      * Runs the application: reads commands from an input file,
@@ -25,8 +29,9 @@ public class App {
      * @param inputPath path to the input file containing commands
      * @param outputPath path to the file where results should be written
      */
-    public static void run(String inputPath, String outputPath) {
-        // feel free to change this if needed (however keep 'outputs' variable name to be used for writing)
+    public static void run(final String inputPath, final String outputPath) {
+        // feel free to change this if needed
+        // however keep 'outputs' variable name to be used for writing
         List<ObjectNode> outputs = new ArrayList<>();
 
         /*
@@ -45,7 +50,7 @@ public class App {
         try {
             File outputFile = new File(outputPath);
             outputFile.getParentFile().mkdirs();
-            writer.withDefaultPrettyPrinter().writeValue(outputFile, outputs);
+            WRITER.withDefaultPrettyPrinter().writeValue(outputFile, outputs);
         } catch (IOException e) {
             System.out.println("error writing to output file: " + e.getMessage());
         }
