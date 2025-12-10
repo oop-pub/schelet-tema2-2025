@@ -344,7 +344,7 @@
     "id" : 6,
     "type" : "FEATURE_REQUEST",
     "title" : "Export reports to Excel",
-    "businessPriority" : "CRITICAL",
+    "businessPriority" : "HIGH",
     "status" : "OPEN",
     "createdAt" : "2025-10-08",
     "solvedAt" : "",
@@ -390,9 +390,9 @@
     },
     "ticketsByPriority" : {
       "LOW" : 0,
-      "MEDIUM" : 0,
-      "HIGH" : 0,
-      "CRITICAL" : 4
+      "MEDIUM" : 1,
+      "HIGH" : 2,
+      "CRITICAL" : 1
     },
     "riskByType" : {
       "BUG" : "SIGNIFICANT",
