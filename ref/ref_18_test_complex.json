@@ -353,7 +353,7 @@
 }, {
   "command" : "viewMilestones",
   "username" : "gabriel_manager",
-  "timestamp" : "2025-10-28",
+  "timestamp" : "2025-10-27",
   "milestones" : [ {
     "name" : "Solve Backend and Frontend",
     "blockingFor" : [ ],
@@ -364,7 +364,7 @@
     "createdBy" : "gabriel_manager",
     "status" : "ACTIVE",
     "isBlocked" : false,
-    "daysUntilDue" : 19,
+    "daysUntilDue" : 20,
     "overdueBy" : 0,
     "openTickets" : [ 0, 1, 5, 6 ],
     "closedTickets" : [ ],
